@@ -32,10 +32,6 @@ class papertrail (
     notify => Service['rsyslog'],
   }
 
-  package { 'gcc':
-    ensure => present,
-  }
-
   package { 'rubygems':
     ensure => present,
   }
