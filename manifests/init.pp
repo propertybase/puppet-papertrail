@@ -45,7 +45,6 @@ class papertrail (
     provider => 'gem',
     require  => [
       Package['rubygems'],
-      Package['gcc'],
       Package['libssl-dev'],
     ],
   }
