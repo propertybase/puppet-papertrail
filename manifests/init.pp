@@ -32,13 +32,7 @@ class papertrail (
     notify => Service['rsyslog'],
   }
 
-  package { 'rubygems':
-    ensure => present,
-  }
-
-  package { 'libssl-dev':
-    ensure => present,
-  }
+  ensure_packages(['gcc', 'rubygems', 'libssl-dev', 'ruby-dev'])
 
   package { 'remote_syslog':
     ensure   => present,
@@ -55,16 +49,27 @@ class papertrail (
     path   => '/etc/init/remote_syslog.conf',
   }
 
-  service { 'remote_syslog':
-    ensure  => running,
-    require => File['remote_syslog upstart script'],
+  $remote_syslog_status = empty($extra_logs) ? {
+    true  => stopped,
+    false => running
+  }
+
+  $remote_syslog_file = empty($extra_logs) ? {
+    true  => absent,
+    false => file
   }
 
   file { 'remote_syslog config':
-    ensure  => file,
+    ensure  => $remote_syslog_file,
     content => template('papertrail/log_files.yml.erb'),
     path    => '/etc/log_files.yml',
     require => File['remote_syslog upstart script'],
     notify  => Service['remote_syslog'],
+  }
+
+  service { 'remote_syslog':
+    ensure      => $remote_syslog_status,
+    provider    => 'upstart',
+    require     => File['remote_syslog upstart script'],
   }
 }
