@@ -7,6 +7,7 @@ class papertrail (
   $log_host               = 'logs.papertrailapp.com',
   $papertrail_certificate = 'puppet:///modules/papertrail/papertrail.crt',
   $extra_logs             = [],
+  $exclude_patterns       = [],
   $template               = 'papertrail/rsyslog.conf.erb',
 ) {
   file { 'rsyslog config':
