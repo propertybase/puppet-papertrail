@@ -1,10 +1,10 @@
+<% @exclude_patterns.each do |pattern| %>
+:msg, contains, "<%= pattern %>" stop
+<% end %>
+
 $DefaultNetstreamDriverCAFile /etc/papertrail.crt
 $ActionSendStreamDriver gtls
 $ActionSendStreamDriverMode 1
 $ActionSendStreamDriverAuthMode x509/name
 
 *.*	@@<%= @log_host %>:<%= @log_port %>
-
-<% @exclude_patterns.each do |pattern| %>
-:msg, contains, "<%= pattern %>" stop
-<% end %>
