@@ -75,6 +75,9 @@ class papertrail (
   service { 'remote_syslog':
     ensure      => $remote_syslog_status,
     provider    => 'upstart',
-    require     => File['remote_syslog upstart script'],
+    require     => [
+      File['remote_syslog upstart script'],
+      Package['remote_syslog'],
+    ]
   }
 }
